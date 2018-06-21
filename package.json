@@ -1,0 +1,29 @@
+{
+  "name": "media-query-plugin",
+  "version": "0.0.1",
+  "description": "Webpack plugin for media query extraction.",
+  "author": "Kai Falkowski",
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "webpack",
+    "plugin",
+    "loader",
+    "mediaquery",
+    "extract",
+    "split",
+    "css"
+  ],
+  "dependencies": {
+    "loader-utils": "^1.1.0",
+    "postcss": "^6.0.22"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SassNinja/media-query-plugin.git"
+  }
+}

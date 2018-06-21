@@ -1,0 +1,9 @@
+# general
+.DS_Store
+node_modules
+
+# prefer npm
+yarn.lock
+
+# exclude unit testing output
+test/output
