@@ -23,11 +23,11 @@ module.exports = class MediaQueryPlugin {
 
                 for (const module of modules) {
 
-                    const basename = module.rawRequest 
-                                        ? module.rawRequest
-                                            .match(/([\w-]+)(\.[\w-]+)+(\?.*)?$/)[0]
-                                            .replace(/\..+$/, '')
-                                        : undefined;
+                    const parsedRequest = module.rawRequest 
+                                            ? module.rawRequest.match(/([\w-]+)(\.[\w-]+)+(\?.*)?$/) 
+                                            : undefined;
+
+                    const basename = parsedRequest ? parsedRequest[0].replace(/\..+$/, '') : undefined;
 
                     // check if store contains extraction for current basename
                     if (basename && store.hasMedia(basename)) {
