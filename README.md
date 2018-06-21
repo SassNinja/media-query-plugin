@@ -137,7 +137,7 @@ This option tells the plugin which media queries are supposed to get extracted. 
 
 **Tip:** you can use the same name for different media queries to concatenate them (e.g. desktop portrait and desktop landscape)
 
-```javasript
+```javascript
 queries: {
     'print, screen and (max-width: 60em) and (orientation: portrait)': 'desktop',
     'print, screen and (max-width: 60em) and (orientation: landscape)': 'desktop'
