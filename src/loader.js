@@ -1,3 +1,8 @@
+/**
+ * The loader component is supposed to extract the media CSS from the source chunks.
+ * To do this it uses a custom PostCSS plugin. 
+ * In the course of this the original media CSS gets removed.
+ */
 
 const { getOptions, interpolateName } = require('loader-utils');
 const postcss = require('postcss');

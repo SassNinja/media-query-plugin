@@ -1,3 +1,6 @@
+/**
+ * The plugin component is supposed to inject the extracted media CSS (from store) into the file(s).
+ */
 
 const pluginName = 'MediaQueryPlugin';
 

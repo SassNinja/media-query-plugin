@@ -1,3 +1,7 @@
+/**
+ * The store component is supposed to transfer the extracted CSS from the loader to the plugin.
+ * Besides it also provides the plugin's options to the loader (as default options).
+ */
 
 class MediaQueryStore {
 
