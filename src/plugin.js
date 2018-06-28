@@ -119,6 +119,14 @@ module.exports = class MediaQueryPlugin {
 
                 // restore default sort of assets object for nicer stats
                 // bcz due to our injection the order got changed
+                compilation.chunks = chunks.sort((a, b) => {
+                    if (a.id < b.id)
+                        return 1;
+                    else if (a.id > b.id)
+                        return -1;
+                    else
+                        return 0;
+                });
                 compilation.assets = Object.keys(assets).sort().reduce((res, key) => (res[key] = assets[key], res), {});
 
                 cb();

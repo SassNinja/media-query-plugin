@@ -6,5 +6,5 @@ dist
 # prefer npm
 yarn.lock
 
-# exclude unit testing output
-test/output
+# exclude testing output
+output
