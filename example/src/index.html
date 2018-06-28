@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Example - Media Query Plugin</title>
+    <link rel="stylesheet" href="./example.css">
+    <link rel="stylesheet" href="./example2.css">
+</head>
+<body>
+    <h1 class="foo bar">Hello World</h1>
+    <p class="lorem"></p>
+    <script src="./runtime.js"></script>
+    <script src="./example.js"></script>
+    <script>
+        if (window.innerWidth >= 960) {
+            var css = document.createElement('style');
+            css.href = './example2-desktop.css';
+            document.head.appendChild(css);
+        }
+    </script>
+</body>
+</html>

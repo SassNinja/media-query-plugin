@@ -24,6 +24,10 @@ class MediaQueryStore {
     getMedia(key) {
         return this.media[key].join('\n');
     }
+
+    getMediaKeys() {
+        return Object.keys(this.media);
+    }
 };
 
 module.exports = new MediaQueryStore();

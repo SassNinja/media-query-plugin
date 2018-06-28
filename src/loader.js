@@ -17,7 +17,7 @@ module.exports = function(source) {
     // merge loader's options with plugin's options from store
     const options = Object.assign(store.options, getOptions(this));
 
-    // basename gets used later for key in media query store
+    // basename gets used later to build the key for media query store
     options.basename = interpolateName(this, '[name]', { content: '' });
 
     let isIncluded = false;

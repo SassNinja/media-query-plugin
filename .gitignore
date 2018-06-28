@@ -1,6 +1,7 @@
 # general
 .DS_Store
 node_modules
+dist
 
 # prefer npm
 yarn.lock

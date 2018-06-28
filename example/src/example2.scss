@@ -1,0 +1,8 @@
+.loremipsum {
+    text-decoration: underline;
+}
+@media print, screen and (max-width: 60em) {
+    .loremipsum {
+        text-decoration: none;
+    }
+}

@@ -18,10 +18,14 @@
     "css"
   ],
   "dependencies": {
-    "loader-utils": "^1.1.0",
-    "postcss": "^6.0.22"
+    "postcss": "^6.x",
+    "webpack": "^4.x"
   },
   "devDependencies": {},
+  "peerDependencies": {
+    "loader-utils": "^1.x",
+    "webpack-sources": "^1.x"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/SassNinja/media-query-plugin.git"

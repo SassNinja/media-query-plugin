@@ -1,0 +1,23 @@
+{
+  "name": "media-query-plugin-example",
+  "version": "1.0.0",
+  "description": "Complete example for the media-query-plugin.",
+  "author": "Kai Falkowski",
+  "license": "MIT",
+  "main": "webpack.config.js",
+  "scripts": {
+    "start": "rm -rf dist && webpack --config webpack.config.js",
+    "debug": "rm -rf dist && node --inspect-brk ./node_modules/.bin/webpack --config webpack.config.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "css-loader": "^0.28.11",
+    "media-query-plugin": "0.0.1",
+    "mini-css-extract-plugin": "^0.4.0",
+    "node-sass": "^4.9.0",
+    "postcss-loader": "^2.1.5",
+    "sass-loader": "^7.0.3",
+    "webpack": "^4.10.1",
+    "webpack-cli": "^2.1.4"
+  }
+}
