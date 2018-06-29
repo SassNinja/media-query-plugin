@@ -42,6 +42,7 @@ module.exports = class MediaQueryPlugin {
         store.options = this.options;
 
         compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
+
             compilation.hooks.additionalAssets.tapAsync(pluginName, (cb) => {
 
                 const chunks = compilation.chunks;
@@ -117,20 +118,49 @@ module.exports = class MediaQueryPlugin {
 
                 });
 
-                // restore default sort of assets object for nicer stats
+                // sort assets object for nicer stats and correct order
                 // bcz due to our injection the order got changed
-                compilation.chunks = chunks.sort((a, b) => {
-                    if (a.id < b.id)
+                const chunksCompareFn = (a, b) => {
+                    if (a.id > b.id)
                         return 1;
-                    else if (a.id > b.id)
+                    else if (a.id < b.id)
                         return -1;
                     else
                         return 0;
-                });
-                compilation.assets = Object.keys(assets).sort().reduce((res, key) => (res[key] = assets[key], res), {});
+                };
+                compilation.chunks = chunks.sort(chunksCompareFn);
+                const assetsCompareFn = (a, b) => {
+                    // take file extension out of sort
+                    a = a.replace(/\.[^.]+$/, '');
+                    b = b.replace(/\.[^.]+$/, '');
+                    
+                    if (a > b)
+                        return 1;
+                    else if (a < b)
+                        return -1;
+                    else
+                        return 0;
+                };
+                compilation.assets = Object.keys(assets).sort(assetsCompareFn).reduce((res, key) => (res[key] = assets[key], res), {});
 
                 cb();
             });
+
+            // consider html-webpack-plugin and provide generated assets to it
+            // so the new assets appear in html template 
+            compilation.hooks.optimizeAssets.tapAsync(pluginName, (assets, cb) => {
+                if (compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration) {
+                    compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration.tapAsync(pluginName, (pluginArgs, cb) => {
+                        const assetKeys = Object.keys(assets);
+                        pluginArgs.assets.js = assetKeys.filter(key => key.match(/\.js$/));
+                        pluginArgs.assets.css = assetKeys.filter(key => key.match(/\.css$/));
+                        pluginArgs.plugin.assetJson = assetKeys;
+                        cb();
+                    });
+                }
+                cb();
+            });
+
         });
 
     }
