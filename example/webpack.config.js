@@ -1,6 +1,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MediaQueryPlugin = require('../src/'); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 // const MediaQueryPlugin = require('media-query-plugin');
@@ -9,8 +10,7 @@ module.exports = {
     mode: 'development',
     devtool: 'inline-source-map',
     entry: {
-        example: './src/example.js',
-        example2: './src/example2.js'
+        example: './src/example.js'
     },
     output: {
         filename: '[name].js',
@@ -27,6 +27,12 @@ module.exports = {
                     'postcss-loader',
                     'sass-loader'
                 ]
+            },
+            {
+                test: /\.hbs$/,
+                use: [
+                    'handlebars-loader'
+                ]
             }
         ]
     },
@@ -34,6 +40,11 @@ module.exports = {
         runtimeChunk: 'single'
     },
     plugins: [
+        new HtmlWebpackPlugin({
+            title: 'Media Query Example',
+            template: './src/index.hbs',
+            inject: false
+        }),
         new MiniCssExtractPlugin({
             filename: '[name].css'
         }),

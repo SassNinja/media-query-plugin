@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{ htmlWebpackPlugin.options.title }}</title>
+{{# each htmlWebpackPlugin.files.css }}
+    <link rel="stylesheet" href="{{ this }}">
+{{/ each }}
+</head>
+<body>
+    <h1 class="foo bar">Hello World</h1>
+    <p class="lorem">Lorem ipsum</p>
+{{# each htmlWebpackPlugin.files.js }}
+    <script src="{{ this }}"></script>
+{{/each}}
+</body>
+</html>
