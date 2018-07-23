@@ -16,7 +16,8 @@ module.exports = class MediaQueryPlugin {
     constructor(options) {
         this.options = Object.assign({
             include: [],
-            queries: {}
+            queries: {},
+            groups: {}
         }, options);
     }
 
