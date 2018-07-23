@@ -41,6 +41,14 @@ module.exports = class MediaQueryPlugin {
         // save options in store to provide to loader
         store.options = this.options;
 
+        // save invalid filename (watch mode) to remove extracted media
+        // from prev compilation
+        compiler.hooks.invalid.tap(pluginName, (fileName, changeTime) => {
+            const name = fileName.split('/').pop();
+            const basename = name.replace(/\..+$/, '');
+            store.invalid.push(basename);
+        });
+
         compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
 
             compilation.hooks.additionalAssets.tapAsync(pluginName, (cb) => {

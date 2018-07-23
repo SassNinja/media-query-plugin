@@ -8,6 +8,7 @@ class MediaQueryStore {
     constructor() {
         this.media = {};
         this.options = {};
+        this.invalid = [];
     }
 
     addMedia(key, css) {
@@ -23,6 +24,10 @@ class MediaQueryStore {
 
     getMedia(key) {
         return this.media[key].join('\n');
+    }
+
+    removeMedia(key) {
+        delete this.media[key];
     }
 
     getMediaKeys() {

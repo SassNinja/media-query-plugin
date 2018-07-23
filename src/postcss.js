@@ -23,6 +23,12 @@ module.exports = postcss.plugin('MediaQueryPostCSS', options => {
 
             if (queryname) {
                 const name = `${options.basename}-${queryname}`;
+                const invalidIndex = store.invalid.indexOf(options.basename);
+
+                if (invalidIndex !== -1) {
+                    store.invalid.splice(invalidIndex, 1);
+                    store.removeMedia(name); // remove prev compilation (watch)
+                }
                 addToStore(name, atRule);
                 atRule.remove();
             }
