@@ -1,63 +1,64 @@
 
-import test from 'ava';
-import rimraf from 'rimraf';
-import webpack from 'webpack';
-import configs from './configs';
+const assert = require('chai').assert;
+const rimraf = require('rimraf');
+const webpack = require('webpack');
+const configs = require('./configs');
 
-// clear output before starting any test
-test.before.cb('clear output folder', t => {
-    rimraf('./test/output', () => {
-        t.pass();
-        t.end();
-    });
-});
+describe('Webpack Integration', function() {
 
-// test style-loader
-test.cb('only javascript output', t => {
-
-    const expected = {
-        assets: ['example.js', 'example-desktop.js'],
-        chunks: ['example', 'example-desktop']
-    };
-
-    webpack(configs['only-javascript-output'], (err, stats) => {
-
-        if (err) 
-            return err;
-        else if (stats.hasErrors()) 
-            return stats.toString();
-
-        const assets = Object.keys(stats.compilation.assets);
-        const chunks = stats.compilation.chunks.map(chunk => chunk.id);
-
-        t.is(assets.length, expected.assets.length);
-        t.deepEqual(chunks, expected.chunks);
-        t.end();
+    // clear output before starting any test
+    afterEach(function clearOutput(done) {
+        rimraf('./test/output', done);
     });
 
-});
+    // test style-loader
+    it('should only emit js files when using style-loader', function(done) {
 
-// test mini-css-extract-plugin
-test.cb('external css output', t => {
+        const expected = {
+            assets: ['example.js', 'example-desktop.js'],
+            chunks: ['example', 'example-desktop']
+        };
 
-    const expected = {
-        assets: ['example.css', 'example.js', 'example-desktop.js', 'example-desktop.css'],
-        chunks: ['example', 'example-desktop']
-    };
+        webpack(configs['only-javascript-output'], (err, stats) => {
 
-    webpack(configs['external-css-output'], (err, stats) => {
+            if (err) 
+                done(err);
+            else if (stats.hasErrors()) 
+                done(stats.toString());
+    
+            const assets = Object.keys(stats.compilation.assets);
+            const chunks = stats.compilation.chunks.map(chunk => chunk.id);
+    
+            assert.deepEqual(assets, expected.assets);
+            assert.deepEqual(chunks, expected.chunks);
+            done();
+        });
+    
+    });
 
-        if (err) 
-            return err;
-        else if (stats.hasErrors()) 
-            return stats.toString();
+    // test mini-css-extract-plugin
+    it('should emit css files if using mini-css-extract-plugin', function(done) {
 
-        const assets = Object.keys(stats.compilation.assets);
-        const chunks = stats.compilation.chunks.map(chunk => chunk.id);
+        const expected = {
+            assets: ['example.css', 'example.js', 'example-desktop.js', 'example-desktop.css'],
+            chunks: ['example', 'example-desktop']
+        };
 
-        t.is(assets.length, expected.assets.length);
-        t.deepEqual(chunks, expected.chunks);
-        t.end();
+        webpack(configs['external-css-output'], (err, stats) => {
+
+            if (err) 
+                done(err);
+            else if (stats.hasErrors()) 
+                done(stats.toString());
+
+            const assets = Object.keys(stats.compilation.assets);
+            const chunks = stats.compilation.chunks.map(chunk => chunk.id);
+
+            assert.deepEqual(assets, expected.assets);
+            assert.deepEqual(chunks, expected.chunks);
+            done();
+        });
+
     });
 
 });
