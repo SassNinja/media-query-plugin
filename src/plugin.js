@@ -42,6 +42,12 @@ module.exports = class MediaQueryPlugin {
         // save options in store to provide to loader
         store.options = this.options;
 
+        // reset store for every webpack instance
+        // required for unit testing because the store is shared
+        compiler.hooks.entryOption.tap(pluginName, () => {
+            store.resetMedia();
+        });
+
         compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
 
             compilation.hooks.additionalAssets.tapAsync(pluginName, (cb) => {

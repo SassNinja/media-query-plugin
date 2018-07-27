@@ -1,20 +1,24 @@
 
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MediaQueryPlugin = require('../../../src');
-const merge = require('webpack-merge');
-const baseConfig = require('./base');
 
-module.exports = merge(baseConfig, {
+module.exports = {
+    mode: 'development',
+    devtool: 'none',
+    entry: {
+        app: './test/data/app.js'
+    },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, `../../output/only-javascript-output`)
+        path: path.resolve(__dirname, `../../output/groups-option-output`)
     },
     module: {
         rules: [
             {
                 test: /\.scss$/,
                 use: [
-                    'style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
                     MediaQueryPlugin.loader,
                     'sass-loader'
@@ -23,13 +27,20 @@ module.exports = merge(baseConfig, {
         ]
     },
     plugins: [
+        new MiniCssExtractPlugin({
+            filename: '[name].css'
+        }),
         new MediaQueryPlugin({
-            include: [
-                'example'
-            ],
+            include: true,
             queries: {
                 'print, screen and (max-width: 60em)': 'desktop'
+            },
+            groups: {
+                app: ['exampleA', 'exampleB']
             }
         })
-    ]
-});
+    ],
+    stats: {
+        children: false
+    }
+};

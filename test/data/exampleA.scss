@@ -1,0 +1,8 @@
+.foo {
+    color: red;
+}
+@media print, screen and (max-width: 60em) {
+    .foo {
+        color: green;
+    }
+}
