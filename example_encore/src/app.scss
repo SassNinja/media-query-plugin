@@ -1,0 +1,17 @@
+.foo {
+    color: red;
+}
+.bar {
+    font-size: 1rem;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+@media screen and (min-width: 60em) {
+    .foo {
+        color: green;
+    }
+    .bar {
+        font-size: 2rem;
+    }
+}

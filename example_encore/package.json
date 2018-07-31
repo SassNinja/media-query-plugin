@@ -1,0 +1,21 @@
+{
+  "name": "media-query-plugin-example-encore",
+  "version": "1.0.0",
+  "description": "Complete example for the media-query-plugin, using webpack encore.",
+  "author": "Kai Falkowski",
+  "license": "MIT",
+  "main": "webpack.config.js",
+  "scripts": {
+    "dev": "encore dev"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@symfony/webpack-encore": "git://github.com/symfony/webpack-encore.git#master",
+    "css-loader": "^1.0.0",
+    "mini-css-extract-plugin": "^0.4.1",
+    "node-sass": "^4.9.2",
+    "postcss-loader": "^2.1.6",
+    "sass-loader": "^7.0.3",
+    "webpack-notifier": "^1.6.0"
+  }
+}

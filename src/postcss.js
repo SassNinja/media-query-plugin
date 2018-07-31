@@ -12,7 +12,7 @@ module.exports = postcss.plugin('MediaQueryPostCSS', options => {
 
         const css = postcss.root().append(atRule).toString();
         
-        store.addMedia(name, css);
+        store.addMedia(name, css, options.path);
     }
 
     return (css, result) => {
@@ -23,6 +23,8 @@ module.exports = postcss.plugin('MediaQueryPostCSS', options => {
 
             if (queryname) {
                 const name = `${options.basename}-${queryname}`;
+                const invalidIndex = store.invalid.indexOf(options.basename);
+
                 addToStore(name, atRule);
                 atRule.remove();
             }

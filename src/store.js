@@ -8,21 +8,36 @@ class MediaQueryStore {
     constructor() {
         this.media = {};
         this.options = {};
+        this.invalid = [];
     }
 
-    addMedia(key, css) {
+    addMedia(key, css, filename) {
+        const data = {
+            css: css,
+            filename: filename
+        }
+
         if (typeof this.media[key] !== 'object') {
             this.media[key] = [];
         }
-        this.media[key].push(css);
-    }
-
-    hasMedia(key) {
-        return !!this.media[key];
+        this.media[key].push(data);
     }
 
     getMedia(key) {
-        return this.media[key].join('\n');
+        // create css array from media[key] data
+        // which has the structure [{css:'',filename:''},{css:'',filename:''}]
+        const css = this.media[key].map(data => data.css);
+
+        return css.join('\n');
+    }
+
+    removeMediaByFilename(filename) {
+        this.getMediaKeys().forEach(key => {
+            this.media[key] = this.media[key].filter(media => media.filename !== filename);
+            if (this.media[key].length === 0) {
+                delete this.media[key];
+            }
+        });
     }
 
     getMediaKeys() {

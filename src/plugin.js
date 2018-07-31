@@ -41,6 +41,12 @@ module.exports = class MediaQueryPlugin {
         // save options in store to provide to loader
         store.options = this.options;
 
+        // if a filename has become invalid (watch mode)
+        // remove all related data from store
+        compiler.hooks.invalid.tap(pluginName, (fileName, changeTime) => {
+            store.removeMediaByFilename(fileName);
+        });
+
         compiler.hooks.thisCompilation.tap(pluginName, (compilation) => {
 
             compilation.hooks.additionalAssets.tapAsync(pluginName, (cb) => {
