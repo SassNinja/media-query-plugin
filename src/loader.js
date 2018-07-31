@@ -18,7 +18,11 @@ module.exports = function(source) {
     const options = Object.assign(store.options, getOptions(this));
 
     // basename gets used later to build the key for media query store
-    options.basename = interpolateName(this, '[name]', { content: '' });
+    options.basename = interpolateName(this, '[name]', {});
+
+    // path gets used later to invalidate store (watch mode)
+    // (don't use options.filename to avoid name conflicts)
+    options.path = interpolateName(this, '[path][name].[ext]', {});
 
     let isIncluded = false;
 
