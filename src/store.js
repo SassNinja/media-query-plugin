@@ -8,7 +8,6 @@ class MediaQueryStore {
     constructor() {
         this.media = {};
         this.options = {};
-        this.invalid = [];
     }
 
     addMedia(key, css, filename) {
