@@ -6,3 +6,8 @@
         text-decoration: none;
     }
 }
+@media print, screen and (max-width: 60em) {
+    .xyz {
+        text-decoration: underline;
+    }
+}
