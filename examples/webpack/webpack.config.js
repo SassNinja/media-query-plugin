@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const MediaQueryPlugin = require('../src/');
+const MediaQueryPlugin = require('../../src/');
 // const MediaQueryPlugin = require('media-query-plugin');
 
 module.exports = {

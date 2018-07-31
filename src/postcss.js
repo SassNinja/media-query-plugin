@@ -12,7 +12,7 @@ module.exports = postcss.plugin('MediaQueryPostCSS', options => {
 
         const css = postcss.root().append(atRule).toString();
         
-        store.addMedia(name, css);
+        store.addMedia(name, css, options.path);
     }
 
     function getGroupName(name) {
