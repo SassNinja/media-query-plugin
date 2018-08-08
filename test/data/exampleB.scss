@@ -1,0 +1,8 @@
+.bar {
+    font-size: 1rem;
+}
+@media print, screen and (max-width: 60em) {
+    .bar {
+        font-size: 2rem;
+    }
+}

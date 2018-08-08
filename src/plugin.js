@@ -16,7 +16,8 @@ module.exports = class MediaQueryPlugin {
     constructor(options) {
         this.options = Object.assign({
             include: [],
-            queries: {}
+            queries: {},
+            groups: {}
         }, options);
     }
 
@@ -40,6 +41,12 @@ module.exports = class MediaQueryPlugin {
 
         // save options in store to provide to loader
         store.options = this.options;
+
+        // reset store for every webpack instance
+        // required for unit testing because the store is shared
+        compiler.hooks.entryOption.tap(pluginName, () => {
+            store.resetMedia();
+        });
 
         // if a filename has become invalid (watch mode)
         // remove all related data from store

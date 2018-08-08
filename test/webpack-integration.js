@@ -37,7 +37,7 @@ describe('Webpack Integration', function() {
     });
 
     // test mini-css-extract-plugin
-    it('should emit css files if using mini-css-extract-plugin', function(done) {
+    it('should emit css files when using mini-css-extract-plugin', function(done) {
 
         const expected = {
             assets: ['example.css', 'example.js', 'example-desktop.js', 'example-desktop.css'],
@@ -45,6 +45,30 @@ describe('Webpack Integration', function() {
         };
 
         webpack(configs['external-css-output'], (err, stats) => {
+
+            if (err) 
+                done(err);
+            else if (stats.hasErrors()) 
+                done(stats.toString());
+
+            const assets = Object.keys(stats.compilation.assets);
+            const chunks = stats.compilation.chunks.map(chunk => chunk.id);
+
+            assert.deepEqual(assets, expected.assets);
+            assert.deepEqual(chunks, expected.chunks);
+            done();
+        });
+
+    });
+
+    it('should use groups option for extraxted file name', function(done) {
+
+        const expected = {
+            assets: ['app.css', 'app.js', 'app-desktop.css'],
+            chunks: ['app', 'app-desktop']
+        };
+
+        webpack(configs['groups-option-output'], (err, stats) => {
 
             if (err) 
                 done(err);

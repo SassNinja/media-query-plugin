@@ -26,6 +26,14 @@ module.exports = merge(baseConfig, {
     plugins: [
         new MiniCssExtractPlugin({
             filename: '[name].css'
+        }),
+        new MediaQueryPlugin({
+            include: [
+                'example'
+            ],
+            queries: {
+                'print, screen and (max-width: 60em)': 'desktop'
+            }
         })
     ]
 });

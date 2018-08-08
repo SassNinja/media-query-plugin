@@ -117,7 +117,13 @@ if (window.innerWidth >= 960) {
 
 ## Options
 
-There are only two options available which are both mandatory.
+The following options are available.
+
+| name        | mandatory |
+| ----------- | --------- |
+| include     | yes       |
+| queries     | yes       |
+| groups      | no        |
 
 ### include
 
@@ -140,6 +146,17 @@ This option tells the plugin which media queries are supposed to get extracted. 
 queries: {
     'print, screen and (max-width: 60em) and (orientation: portrait)': 'desktop',
     'print, screen and (max-width: 60em) and (orientation: landscape)': 'desktop'
+}
+```
+
+### groups
+
+By default the name of the extracted CSS file(s) is `[chunk]-[query]`. This option lets you map chunk names to a specific group name what results in `[group]-[query]`.
+So the following code would generate a `app-desktop.css` instead of `exampleA-desktop.css` and `exampleB-desktop.css`. This can be useful when working with [splitChunks](https://webpack.js.org/plugins/split-chunks-plugin/).
+
+```javascript
+groups: {
+    app: ['exampleA', 'exampleB']
 }
 ```
 

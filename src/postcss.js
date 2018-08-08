@@ -15,6 +15,19 @@ module.exports = postcss.plugin('MediaQueryPostCSS', options => {
         store.addMedia(name, css, options.path);
     }
 
+    function getGroupName(name) {
+        const groupNames = Object.keys(options.groups);
+
+        for (let i = 0; i < groupNames.length; i++) {
+            const groupName = groupNames[i];
+            const group = options.groups[groupName];
+
+            if (group.indexOf(name) !== -1) {
+                return groupName;
+            }
+        }
+    }
+
     return (css, result) => {
 
         css.walkAtRules('media', atRule => {
@@ -22,9 +35,9 @@ module.exports = postcss.plugin('MediaQueryPostCSS', options => {
             const queryname = options.queries[atRule.params];
 
             if (queryname) {
-                const name = `${options.basename}-${queryname}`;
-                const invalidIndex = store.invalid.indexOf(options.basename);
-
+                const groupName = getGroupName(options.basename);
+                const name = groupName ? `${groupName}-${queryname}` : `${options.basename}-${queryname}`;
+                
                 addToStore(name, atRule);
                 atRule.remove();
             }
