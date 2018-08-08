@@ -1,0 +1,11 @@
+# gitignore
+.DS_Store
+node_modules
+dist
+yarn.lock
+output
+
+# exclude for npm only
+examples
+.travis.yml
+README.md
