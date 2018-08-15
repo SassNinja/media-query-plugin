@@ -11,8 +11,9 @@ module.exports = postcss.plugin('MediaQueryPostCSS', options => {
     function addToStore(name, atRule) {
 
         const css = postcss.root().append(atRule).toString();
+        const query = atRule.params;
         
-        store.addMedia(name, css, options.path);
+        store.addMedia(name, css, options.path, query);
     }
 
     function getGroupName(name) {

@@ -6,12 +6,18 @@
 {{# each htmlWebpackPlugin.files.css }}
     <link rel="stylesheet" href="{{ this }}">
 {{/ each }}
+{{# each htmlWebpackPlugin.files.extracted.css }}
+    <link rel="stylesheet" href="{{ this.file }}" media="{{ this.query }}">
+{{/ each }}
 </head>
 <body>
     <h1 class="foo bar">Hello World</h1>
     <p class="lorem">Lorem ipsum</p>
 {{# each htmlWebpackPlugin.files.js }}
     <script src="{{ this }}"></script>
-{{/each}}
+{{/ each}}
+{{# each htmlWebpackPlugin.files.extracted.js }}
+    <script src="{{ this.file }}"></script>
+{{/ each}}
 </body>
 </html>
