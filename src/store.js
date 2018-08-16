@@ -10,11 +10,12 @@ class MediaQueryStore {
         this.options = {};
     }
 
-    addMedia(key, css, filename) {
+    addMedia(key, css, filename, query) {
         const data = {
             css: css,
-            filename: filename
-        }
+            filename: filename,
+            query: query
+        };
 
         if (typeof this.media[key] !== 'object') {
             this.media[key] = [];
@@ -24,10 +25,18 @@ class MediaQueryStore {
 
     getMedia(key) {
         // create css array from media[key] data
-        // which has the structure [{css:'',filename:''},{css:'',filename:''}]
+        // which has the structure [{css:'',filename:'',query:''},{css:'',filename:'',query:''}]
         const css = this.media[key].map(data => data.css);
 
         return css.join('\n');
+    }
+
+    getQueries(key) {
+        // create queries array from media[key] data
+        // which can be used to determine the used query for a key
+        const queries = this.media[key].map(data => data.query);
+
+        return queries;
     }
 
     removeMediaByFilename(filename) {

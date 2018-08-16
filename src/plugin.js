@@ -65,6 +65,7 @@ module.exports = class MediaQueryPlugin {
                 store.getMediaKeys().forEach(mediaKey => {
 
                     const css = store.getMedia(mediaKey);
+                    const queries = store.getQueries(mediaKey);
 
                     // generate hash and use for [hash] within basename
                     const hash = interpolateName({}, `[hash:${compiler.options.output.hashDigestLength}]`, { content: css });
@@ -85,6 +86,12 @@ module.exports = class MediaQueryPlugin {
                     }
 
                     const chunk = chunks.filter(chunk => chunk.id === mediaKey)[0];
+
+                    // add query to chunk data if available
+                    // can be used to determine query of a chunk (html-webpack-plugin)
+                    if (queries) {
+                        chunk.query = queries[0];
+                    }
 
                     // find existing js & css files of this chunk
                     let existingFiles = { js: [], css: [] };
@@ -173,19 +180,37 @@ module.exports = class MediaQueryPlugin {
                 cb();
             });
 
-            // consider html-webpack-plugin and provide generated assets to it
-            // so the new assets appear in html template 
-            compilation.hooks.optimizeAssets.tapAsync(pluginName, (assets, cb) => {
+            // consider html-webpack-plugin and provide extracted files
+            // which can be accessed in templates via htmlWebpackPlugin.files.extracted
+            // { css: [{file:'',query:''},{file:'',query:''}] }
+            compilation.hooks.afterOptimizeChunkAssets.tap(pluginName, (chunks) => {
                 if (compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration) {
                     compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration.tapAsync(pluginName, (pluginArgs, cb) => {
-                        const assetKeys = Object.keys(assets);
-                        pluginArgs.assets.js = assetKeys.filter(key => key.match(/\.js$/));
-                        pluginArgs.assets.css = assetKeys.filter(key => key.match(/\.css$/));
-                        pluginArgs.plugin.assetJson = assetKeys;
+                        const assetJson = [];
+                        const extracted = {};
+
+                        chunks.forEach(chunk => {
+                            const query = chunk.query;
+                            
+                            chunk.files.forEach(file => {
+                                const ext = file.match(/\w+$/)[0];
+                                
+                                if (query) {
+                                    extracted[ext] = extracted[ext] || [];
+                                    extracted[ext].push({
+                                        file: file,
+                                        query: query
+                                    });
+                                }
+                                assetJson.push(file);
+                            });
+                        });
+
+                        pluginArgs.assets.extracted = extracted;
+                        pluginArgs.plugin.assetJson = JSON.stringify(assetJson);
                         cb();
                     });
                 }
-                cb();
             });
 
         });

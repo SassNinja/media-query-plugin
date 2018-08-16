@@ -170,7 +170,11 @@ If you don't want the CSS included in your JS but emit it as external files, you
 
 ### html-webpack-plugin
 
-If you're using the hash feature of webpack (e.g. `[name].[hash].js`) chances are high you're also using the [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) to inject the hashed files into your templates. Good news – the media query plugin supports it! It hooks into the plugin and makes sure the extracted files are available in your HTML template via `htmlWebpackPlugin.files.js` or `htmlWebpackPlugin.files.css`.
+If you're using the hash feature of webpack (e.g. `[name].[hash].js`) you might also be using the [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) to inject the hashed files into your templates. Good news – the media query plugin supports it! It hooks into the plugin and makes extracted files available in your HTML template via `htmlWebpackPlugin.files.extracted.js` or `htmlWebpackPlugin.files.extracted.css`.
+
+This let you inject something as `<link rel="stylesheet" href="..." media="...">` so that the extracted files get downloaded but not applied if not necessary (reduces render blocking time). However most of the time it's better to use dynamic imports for the extracted CSS to achieve best performance.
+
+Compared to the regular files (`htmlWebpackPlugin.files.js` or `htmlWebpackPlugin.files.css`) the extracted files object does not have the structure `[file, file]` but `[{file:file,query:query}, {file:file,query:query}]`. Keep this in mind when using it (or check out the example [template](examples/webpack/src/index.hbs)).
 
 ## Not using webpack?
 
