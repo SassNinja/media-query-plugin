@@ -98,16 +98,30 @@ module.exports = class MediaQueryPlugin {
 
                     // if css included in js (style-loader), inject into js
                     if (existingFiles.js.length > 0 && existingFiles.css.length === 0) {
+                        let content;
+                        const extractedContent = new OriginalSource(`\nexports.push([module.i, ${escapeUtil(css)}, ""]);\n\n\n`, `${basename}.css`);
 
-                        let content = new OriginalSource(`\n\n// module\nexports.push([module.i, "${escapeUtil(css)}", ""]);`, `${basename}.css`);
-                        existingFiles.js.forEach(file => {
+                        for (let i = 0; i < existingFiles.js.length; i++) {
+                            const file = existingFiles.js[i];
+
                             if (assets[file]) {
-                                content = new ConcatSource(assets[file], content);
+                                if (i === 0) {
+                                    // since I've to inject the extracted content somewhere into the existing JS code (after `// module`)
+                                    // I can't simply use ConcatSource here but need to split the raw source code first
+                                    // This is only necessary for the first file/iteration
+                                    const originalSource = assets[file].source();
+                                    const aboveContent = new OriginalSource(originalSource.match(/[\s\S]*\/\/ module/gm)[0], `${basename}.js`);
+                                    const belowContent = new OriginalSource(originalSource.match(/\/\/ exports[\s\S]*/gm)[0], `${basename}.js`);
+
+                                    content = new ConcatSource(aboveContent, extractedContent, belowContent);
+                                } else {
+                                    content = new ConcatSource(assets[file], content);
+                                }
                                 chunk.files.splice(chunk.files.indexOf(file), 1);
                                 delete assets[file];
                             }
-                        });
-
+                        }
+                        
                         chunk.files.push(`${basename}.js`);
                         assets[`${basename}.js`] = content;
                     }
