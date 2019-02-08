@@ -117,8 +117,8 @@ module.exports = class MediaQueryPlugin {
                                     // I can't simply use ConcatSource here but need to split the raw source code first
                                     // This is only necessary for the first file/iteration
                                     const originalSource = assets[file].source();
-                                    const aboveContent = new OriginalSource(originalSource.match(/[\s\S]*\/\/ module/gm)[0], `${basename}.js`);
-                                    const belowContent = new OriginalSource(originalSource.match(/\/\/ exports[\s\S]*/gm)[0], `${basename}.js`);
+                                    const aboveContent = new OriginalSource(originalSource.match(/[\s\S]*\/\/ module/gim)[0], `${basename}.js`);
+                                    const belowContent = new OriginalSource(originalSource.match(/(\/\/\s)?exports[\s\S]*/gm)[0], `${basename}.js`);
 
                                     content = new ConcatSource(aboveContent, extractedContent, belowContent);
                                 } else {
