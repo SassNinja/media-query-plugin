@@ -1,6 +1,8 @@
 # Media Query Plugin
 
-[![Build Status](https://travis-ci.com/SassNinja/media-query-plugin.svg?branch=master)](https://travis-ci.com/SassNinja/media-query-plugin)
+[![Npm Version](https://badge.fury.io/js/media-query-plugin.svg)](https://www.npmjs.com/package/media-query-plugin) 
+[![Build Status](https://travis-ci.com/SassNinja/media-query-plugin.svg?branch=master)](https://travis-ci.com/SassNinja/media-query-plugin) 
+[![Month Downloads](https://img.shields.io/npm/dm/media-query-plugin.svg)](http://npm-stat.com/charts.html?package=media-query-plugin)
 
 Have you ever thought about extracting your media queries from your CSS so a mobile user doesn't have to load desktop specific CSS?
 If so this plugin is what you need!
