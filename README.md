@@ -160,6 +160,13 @@ groups: {
 }
 ```
 
+**Tip:** you can also use regex to target chunks
+```javascript
+groups: {
+    app: /^example/
+}
+```
+
 ## Other Webpack Plugins
 
 This plugin plays together well with the following other webpack plugins.

@@ -36,7 +36,7 @@ module.exports = {
                 'print, screen and (max-width: 60em)': 'desktop'
             },
             groups: {
-                app: ['exampleA', 'exampleB']
+                app: /^example/
             }
         })
     ],
