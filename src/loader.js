@@ -27,7 +27,7 @@ module.exports = function(source) {
     let isIncluded = false;
 
     // check if current file should be affected
-    if (typeof options.include === 'object' && options.include.indexOf(options.basename) > -1) {
+    if (options.include instanceof Array && options.include.indexOf(options.basename) !== -1) {
         isIncluded = true;
     } else if (options.include instanceof RegExp && options.basename.match(options.include)) {
         isIncluded = true;

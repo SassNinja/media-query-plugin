@@ -24,7 +24,7 @@ module.exports = postcss.plugin('MediaQueryPostCSS', options => {
             const group = options.groups[groupName];
 
             if (group instanceof RegExp && name.match(group)) {
-                return groupName
+                return groupName;
             }
             if (typeof group === 'object' && group.indexOf(name) !== -1) {
                 return groupName;
