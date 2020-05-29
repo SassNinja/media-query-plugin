@@ -77,7 +77,7 @@ module.exports = class MediaQueryPlugin {
                                         .replace(/\[(content|chunk)?hash\]/, hash)
                                         .replace(/\.[^.]+$/, '');
 
-                    // if there's no chunk for the extracted media, create one 
+                    // if there's no chunk for the extracted media, create one
                     if (chunkIds.indexOf(mediaKey) === -1) {
                         const mediaChunk = new Chunk(mediaKey);
                         mediaChunk.id = mediaKey;
@@ -128,7 +128,7 @@ module.exports = class MediaQueryPlugin {
                                 delete assets[file];
                             }
                         }
-                        
+
                         chunk.files.push(`${basename}.js`);
                         assets[`${basename}.js`] = content;
                     }
@@ -167,7 +167,7 @@ module.exports = class MediaQueryPlugin {
                     // take file extension out of sort
                     a = a.replace(/\.[^.]+$/, '');
                     b = b.replace(/\.[^.]+$/, '');
-                    
+
                     if (a > b)
                         return 1;
                     else if (a < b)
@@ -183,18 +183,20 @@ module.exports = class MediaQueryPlugin {
             // consider html-webpack-plugin and provide extracted files
             // which can be accessed in templates via htmlWebpackPlugin.files.extracted
             // { css: [{file:'',query:''},{file:'',query:''}] }
-            compilation.hooks.afterOptimizeChunkAssets.tap(pluginName, (chunks) => {
-                if (compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration) {
-                    compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration.tapAsync(pluginName, (pluginArgs, cb) => {
+            try {
+                const htmlWebpackPlugin = require('html-webpack-plugin');
+
+                compilation.hooks.afterOptimizeChunkAssets.tap(pluginName, (chunks) => {
+                    htmlWebpackPlugin.getHooks(compilation).beforeAssetTagGeneration.tapAsync(pluginName, (pluginArgs, cb) => {
                         const assetJson = [];
                         const extracted = {};
 
                         chunks.forEach(chunk => {
                             const query = chunk.query;
-                            
+
                             chunk.files.forEach(file => {
                                 const ext = file.match(/\w+$/)[0];
-                                
+
                                 if (query) {
                                     extracted[ext] = extracted[ext] || [];
                                     extracted[ext].push({
@@ -210,8 +212,13 @@ module.exports = class MediaQueryPlugin {
                         pluginArgs.plugin.assetJson = JSON.stringify(assetJson);
                         cb();
                     });
+                });
+            }
+            catch (err) {
+                if (err.code !== 'MODULE_NOT_FOUND') {
+                    throw err;
                 }
-            });
+            }
 
         });
 
