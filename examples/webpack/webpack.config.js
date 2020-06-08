@@ -1,6 +1,5 @@
 
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MediaQueryPlugin = require('../../src/');
@@ -25,13 +24,25 @@ module.exports = {
                     'css-loader',
                     MediaQueryPlugin.loader,
                     'postcss-loader',
-                    'sass-loader'
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            implementation: require('sass')
+                        }
+                    }
                 ]
             },
             {
                 test: /\.hbs$/,
                 use: [
-                    'handlebars-loader'
+                    {
+                        loader: 'handlebars-loader',
+                        options: {
+                            helperDirs: [
+                                path.resolve(__dirname, 'helpers')
+                            ]
+                        }
+                    }
                 ]
             }
         ]
@@ -54,8 +65,8 @@ module.exports = {
                 'example2'
             ],
             queries: {
-                'print, screen and (max-width: 60em)': 'desktop',
-                'print, screen and (max-width: 60em) and (orientation: landscape)': 'desktop'
+                'print, screen and (min-width: 60em)': 'desktop',
+                'print, screen and (min-width: 60em) and (orientation: landscape)': 'desktop'
             }
         })
     ],

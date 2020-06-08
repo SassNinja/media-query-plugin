@@ -1,12 +1,12 @@
 .loremipsum {
     text-decoration: underline;
 }
-@media print, screen and (max-width: 60em) {
+@media print, screen and (min-width: 60em) {
     .loremipsum {
         text-decoration: none;
     }
 }
-@media print, screen and (max-width: 60em) {
+@media print, screen and (min-width: 60em) {
     .xyz {
         text-decoration: underline;
     }

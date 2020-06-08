@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="{{ this }}">
 {{/ each }}
 {{# each htmlWebpackPlugin.files.extracted.css }}
+    {{#if_not_dynamic_import}}
     <link rel="stylesheet" href="{{ this.file }}" media="{{ this.query }}">
+    {{/if_not_dynamic_import}}
 {{/ each }}
 </head>
 <body>
@@ -17,7 +19,9 @@
     <script src="{{ this }}"></script>
 {{/ each}}
 {{# each htmlWebpackPlugin.files.extracted.js }}
+    {{#if_not_dynamic_import}}
     <script src="{{ this.file }}"></script>
+    {{/if_not_dynamic_import}}
 {{/ each}}
 </body>
 </html>
