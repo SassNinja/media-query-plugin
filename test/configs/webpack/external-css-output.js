@@ -2,7 +2,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MediaQueryPlugin = require('../../../src');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const baseConfig = require('./base');
 
 module.exports = merge(baseConfig, {
