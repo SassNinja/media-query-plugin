@@ -23,11 +23,14 @@ module.exports = postcss.plugin('MediaQueryPostCSS', options => {
             const groupName = groupNames[i];
             const group = options.groups[groupName];
 
-            if (group instanceof RegExp && name.match(group)) {
-                return groupName;
-            }
-            if (typeof group === 'object' && group.indexOf(name) !== -1) {
-                return groupName;
+            if (group instanceof RegExp) {
+                if (name.match(group)) {
+                    return groupName;
+                }
+            } else if (Array.isArray(group)) {
+                if (group.includes(name)) {
+                    return groupName;
+                }
             }
         }
     }
