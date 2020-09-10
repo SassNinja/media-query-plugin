@@ -5,7 +5,6 @@ const MediaQueryPlugin = require('../../src/');
 
 Encore
     .cleanupOutputBeforeBuild()
-    .enableBuildNotifications()
     .enableSingleRuntimeChunk()
     .setOutputPath('dist/')
     .setPublicPath('/dist')

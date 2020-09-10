@@ -10,13 +10,12 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@symfony/webpack-encore": "git+https://github.com/symfony/webpack-encore.git#master",
-    "css-loader": "^2.1.1",
+    "@symfony/webpack-encore": "^0.31.0",
+    "css-loader": "^4.3.0",
     "media-query-plugin": "^1.3.1",
-    "mini-css-extract-plugin": "^0.6.0",
-    "node-sass": "^4.11.0",
-    "postcss-loader": "^3.0.0",
-    "sass-loader": "^7.1.0",
-    "webpack-notifier": "^1.7.0"
+    "mini-css-extract-plugin": "^0.11.1",
+    "postcss-loader": "^4.0.1",
+    "sass": "^1.26.10",
+    "sass-loader": "^10.0.2"
   }
 }
