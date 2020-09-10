@@ -7,7 +7,7 @@
 Have you ever thought about extracting your media queries from your CSS so a mobile user doesn't have to load desktop specific CSS?
 If so this plugin is what you need!
 
-When writing CSS with the help of a framework (such as [Bootstrap](https://getbootstrap.com/) or [Foundation](https://foundation.zurb.com/sites.html)) and with a modular design pattern you'll mostly end up with CSS that contains all media queries. Using this plugin lets you easily extract the media queries from your CSS and load it async.
+When writing CSS with the help of a framework (such as [Bootstrap](https://getbootstrap.com/) or [Foundation](https://get.foundation/sites.html)) and with a modular design pattern you'll mostly end up with CSS that contains all media queries. Using this plugin lets you easily extract the media queries from your CSS and load it async.
 
 So instead of forcing the user to load this
 
