@@ -183,18 +183,22 @@ module.exports = class MediaQueryPlugin {
             // consider html-webpack-plugin and provide extracted files
             // which can be accessed in templates via htmlWebpackPlugin.files.extracted
             // { css: [{file:'',query:''},{file:'',query:''}] }
-            compilation.hooks.afterOptimizeChunkAssets.tap(pluginName, (chunks) => {
-                if (compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration) {
-                    compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration.tapAsync(pluginName, (pluginArgs, cb) => {
+
+            try {
+                const htmlWebpackPlugin = require('html-webpack-plugin');
+
+                compilation.hooks.afterOptimizeChunkAssets.tap(pluginName, (chunks) => {
+
+                    const hookFn = (pluginArgs, cb) => {
                         const assetJson = [];
                         const extracted = {};
 
                         chunks.forEach(chunk => {
                             const query = chunk.query;
-                            
+
                             chunk.files.forEach(file => {
                                 const ext = file.match(/\w+$/)[0];
-                                
+
                                 if (query) {
                                     extracted[ext] = extracted[ext] || [];
                                     extracted[ext].push({
@@ -209,9 +213,19 @@ module.exports = class MediaQueryPlugin {
                         pluginArgs.assets.extracted = extracted;
                         pluginArgs.plugin.assetJson = JSON.stringify(assetJson);
                         cb();
-                    });
+                    };
+
+                    if (htmlWebpackPlugin.getHooks) {
+                        htmlWebpackPlugin.getHooks(compilation).beforeAssetTagGeneration.tapAsync(pluginName, hookFn);
+                    } else if (compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration) {
+                        compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration.tapAsync(pluginName, hookFn);
+                    }
+                });
+            } catch (err) {
+                if (err.code !== 'MODULE_NOT_FOUND') {
+                    throw err;
                 }
-            });
+            }
 
         });
 
