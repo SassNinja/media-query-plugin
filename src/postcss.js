@@ -5,6 +5,7 @@
 
 const postcss = require('postcss');
 const store = require('./store');
+const normalize = require('./utils/normalize');
 
 module.exports = postcss.plugin('MediaQueryPostCSS', options => {
 
@@ -35,11 +36,21 @@ module.exports = postcss.plugin('MediaQueryPostCSS', options => {
         }
     }
 
+    function getQueryName(query) {
+        const queries = Object.keys(options.queries);
+
+        for (let i = 0; i < queries.length; i++) {
+            if (normalize(query) === normalize(queries[i])) {
+                return options.queries[queries[i]];
+            }
+        }
+    }
+
     return (css, result) => {
 
         css.walkAtRules('media', atRule => {
 
-            const queryname = options.queries[atRule.params];
+            const queryname = getQueryName(atRule.params);
 
             if (queryname) {
                 const groupName = getGroupName(options.basename);
