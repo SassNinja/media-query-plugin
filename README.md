@@ -121,11 +121,12 @@ if (window.innerWidth >= 960) {
 
 The following options are available.
 
-| name        | mandatory |
-| ----------- | --------- |
-| include     | yes       |
-| queries     | yes       |
-| groups      | no        |
+| name         | mandatory |
+| ------------ | --------- |
+| include      | yes       |
+| queries      | yes       |
+| groups       | no        |
+| pathIncludes | no        |
 
 ### include
 
@@ -167,6 +168,17 @@ groups: {
 groups: {
     app: /^example/
 }
+```
+
+### pathIncludes
+
+This option let's you define what the path of the file in question needs to contain in order to be included in the process. The option is defined as an `Array` and the contents are of the type `String`. So an example could be:
+```javascript
+pathIncludes: ['header-site', 'footer-site']
+
+// Path: /Users/[user]/project/header-site/index.css -> true
+// Path: /Users/[user]/project/post-list/index.css -> false
+// Path: /Users/[user]/project/subComponents/footer-site/index.css -> true
 ```
 
 ## Other Webpack Plugins
