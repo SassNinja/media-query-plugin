@@ -121,11 +121,12 @@ if (window.innerWidth >= 960) {
 
 The following options are available.
 
-| name        | mandatory |
-| ----------- | --------- |
-| include     | yes       |
-| queries     | yes       |
-| groups      | no        |
+| name           | mandatory |
+| -------------- | --------- |
+| include        | yes       |
+| queries        | yes       |
+| groups         | no        |
+| outputFileName | no        |
 
 ### include
 
@@ -167,6 +168,31 @@ groups: {
 groups: {
     app: /^example/
 }
+```
+
+### outputFileName
+
+If emitted, the plugin will automatically generate the filename for each CSS that is extracted. If defined, as a `Function`, you gain control of the output filename for each extracted CSS, where the `Function` returns the name for the given file as a `String`.
+
+The function receives one parameter in the form of an `Object`, containing both the options you provide to the plugin, and the following properties:
+
+| name       | type    |
+| ---------- | ------- |
+| groups     | Object  |
+| filename   | String  |
+| basename   | String  |
+| path       | String  |
+| queryname  | String  |
+| groupname  | String  |
+
+The option can be used like this:
+```javascript
+outputFileName: ({ path, queryname }) => {
+    // Path: /Users/[user]/project/component-name/index.vue
+    // Queryname: desktop
+    const pathParts = path.split('/');
+    return `${pathParts[pathParts.length - 2]}-${queryname}`;
+},
 ```
 
 ## Other Webpack Plugins
