@@ -59,7 +59,7 @@ module.exports = class MediaQueryPlugin {
             compilation.hooks.additionalAssets.tapAsync(pluginName, (cb) => {
 
                 const chunks = compilation.chunks;
-                const chunkIds = chunks.map(chunk => chunk.id);
+                const chunkIds = [...chunks].map(chunk => chunk.id);
                 const assets = compilation.assets;
 
                 store.getMediaKeys().forEach(mediaKey => {
@@ -77,15 +77,15 @@ module.exports = class MediaQueryPlugin {
                                         .replace(/\[(content|chunk)?hash\]/, hash)
                                         .replace(/\.[^.]+$/, '');
 
-                    // if there's no chunk for the extracted media, create one 
+                    // if there's no chunk for the extracted media, create one
                     if (chunkIds.indexOf(mediaKey) === -1) {
                         const mediaChunk = new Chunk(mediaKey);
                         mediaChunk.id = mediaKey;
                         mediaChunk.ids = [mediaKey];
-                        chunks.push(mediaChunk);
+                        chunks.add(mediaChunk);
                     }
 
-                    const chunk = chunks.filter(chunk => chunk.id === mediaKey)[0];
+                    const chunk = [...chunks].filter(chunk => chunk.id === mediaKey)[0];
 
                     // add query to chunk data if available
                     // can be used to determine query of a chunk (html-webpack-plugin)
@@ -124,12 +124,12 @@ module.exports = class MediaQueryPlugin {
                                 } else {
                                     content = new ConcatSource(assets[file], content);
                                 }
-                                chunk.files.splice(chunk.files.indexOf(file), 1);
+                                chunk.files.delete(file);
                                 delete assets[file];
                             }
                         }
-                        
-                        chunk.files.push(`${basename}.js`);
+
+                        chunk.files.add(`${basename}.js`);
                         assets[`${basename}.js`] = content;
                     }
 
@@ -141,12 +141,12 @@ module.exports = class MediaQueryPlugin {
                         existingFiles.css.forEach(file => {
                             if (assets[file]) {
                                 content = new ConcatSource(assets[file], content);
-                                chunk.files.splice(chunk.files.indexOf(file), 1);
+                                chunk.files.delete(file);
                                 delete assets[file];
                             }
                         });
 
-                        chunk.files.push(`${basename}.css`);
+                        chunk.files.add(`${basename}.css`);
                         assets[`${basename}.css`] = content;
                     }
 
@@ -162,12 +162,13 @@ module.exports = class MediaQueryPlugin {
                     else
                         return 0;
                 };
-                compilation.chunks = chunks.sort(chunksCompareFn);
+                compilation.chunks = new Set([...chunks].sort(chunksCompareFn));
+
                 const assetsCompareFn = (a, b) => {
                     // take file extension out of sort
                     a = a.replace(/\.[^.]+$/, '');
                     b = b.replace(/\.[^.]+$/, '');
-                    
+
                     if (a > b)
                         return 1;
                     else if (a < b)

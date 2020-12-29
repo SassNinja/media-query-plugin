@@ -21,19 +21,19 @@ describe('Webpack Integration', function() {
 
         webpack(configs['only-javascript-output'], (err, stats) => {
 
-            if (err) 
+            if (err)
                 done(err);
-            else if (stats.hasErrors()) 
+            else if (stats.hasErrors())
                 done(stats.toString());
-    
+
             const assets = Object.keys(stats.compilation.assets);
-            const chunks = stats.compilation.chunks.map(chunk => chunk.id);
-    
+            const chunks = [...stats.compilation.chunks].map(chunk => chunk.id);
+
             assert.deepEqual(assets, expected.assets);
             assert.deepEqual(chunks, expected.chunks);
             done();
         });
-    
+
     });
 
     // test mini-css-extract-plugin
@@ -46,13 +46,13 @@ describe('Webpack Integration', function() {
 
         webpack(configs['external-css-output'], (err, stats) => {
 
-            if (err) 
+            if (err)
                 done(err);
-            else if (stats.hasErrors()) 
+            else if (stats.hasErrors())
                 done(stats.toString());
 
             const assets = Object.keys(stats.compilation.assets);
-            const chunks = stats.compilation.chunks.map(chunk => chunk.id);
+            const chunks = [...stats.compilation.chunks].map(chunk => chunk.id);
 
             assert.deepEqual(assets, expected.assets);
             assert.deepEqual(chunks, expected.chunks);
@@ -70,13 +70,13 @@ describe('Webpack Integration', function() {
 
         webpack(configs['groups-option-output'], (err, stats) => {
 
-            if (err) 
+            if (err)
                 done(err);
-            else if (stats.hasErrors()) 
+            else if (stats.hasErrors())
                 done(stats.toString());
 
             const assets = Object.keys(stats.compilation.assets);
-            const chunks = stats.compilation.chunks.map(chunk => chunk.id);
+            const chunks = [...stats.compilation.chunks].map(chunk => chunk.id);
 
             assert.deepEqual(assets, expected.assets);
             assert.deepEqual(chunks, expected.chunks);
