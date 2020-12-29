@@ -20,7 +20,7 @@
   "dependencies": {
     "loader-utils": "^2.0.0",
     "postcss": "^7.0.32",
-    "webpack": "^4.44.1",
+    "webpack": "^5.11.1",
     "webpack-sources": "^1.4.3"
   },
   "devDependencies": {
