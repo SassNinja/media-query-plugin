@@ -5,7 +5,7 @@ const MediaQueryPlugin = require('../../../src');
 
 module.exports = {
     mode: 'development',
-    devtool: 'none',
+    devtool: false,
     entry: {
         app: './test/data/app.js'
     },
