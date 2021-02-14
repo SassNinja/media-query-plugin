@@ -1,7 +1,7 @@
 
 module.exports = {
     mode: 'development',
-    devtool: 'none',
+    devtool: false,
     entry: {
         example: './test/data/example.js'
     },
