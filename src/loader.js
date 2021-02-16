@@ -31,6 +31,8 @@ module.exports = function(source) {
         isIncluded = true;
     } else if (options.include instanceof RegExp && options.basename.match(options.include)) {
         isIncluded = true;
+    } else if (options.pathIncludes instanceof Array && options.pathIncludes.find(inc => options.path.indexOf(inc) > -1)) {
+        isIncluded = true;
     } else if (options.include === true) {
         isIncluded = true;
     }

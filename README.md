@@ -121,11 +121,13 @@ if (window.innerWidth >= 960) {
 
 The following options are available.
 
-| name        | mandatory |
-| ----------- | --------- |
-| include     | yes       |
-| queries     | yes       |
-| groups      | no        |
+| name           | mandatory |
+| -------------- | --------- |
+| include        | yes       |
+| queries        | yes       |
+| groups         | no        |
+| pathIncludes   | no        |
+| outputFileName | no        |
 
 ### include
 
@@ -167,6 +169,44 @@ groups: {
 groups: {
     app: /^example/
 }
+```
+
+
+### pathIncludes
+
+This option let's you define what the path of the file in question needs to contain in order to be included in the process. The option is defined as an `Array` and the contents are of the type `String`. So an example could be:
+```javascript
+pathIncludes: ['header-site', 'footer-site']
+
+// Path: /Users/[user]/project/header-site/index.css -> true
+// Path: /Users/[user]/project/post-list/index.css -> false
+// Path: /Users/[user]/project/subComponents/footer-site/index.css -> true
+```
+
+### outputFileName
+
+If emitted, the plugin will automatically generate the filename for each CSS that is extracted. If defined, as a `Function`, you gain control of the output filename for each extracted CSS, where the `Function` returns the name for the given file as a `String`.
+
+The function receives one parameter in the form of an `Object`, containing both the options you provide to the plugin, and the following properties:
+
+| name       | type    |
+| ---------- | ------- |
+| groups     | Object  |
+| filename   | String  |
+| basename   | String  |
+| path       | String  |
+| queryname  | String  |
+| groupname  | String  |
+
+The option can be used like this:
+```javascript
+outputFileName: ({ path, queryname }) => {
+    // Path: /Users/[user]/project/component-name/index.vue
+    // Queryname: desktop
+    const pathParts = path.split('/');
+    return `${pathParts[pathParts.length - 2]}-${queryname}`;
+},
+
 ```
 
 ## Other Webpack Plugins
