@@ -13,7 +13,7 @@
   "devDependencies": {
     "css-loader": "^4.3.0",
     "file-loader": "^6.1.0",
-    "handlebars": "^4.7.6",
+    "handlebars": "^4.7.7",
     "handlebars-loader": "^1.7.1",
     "html-webpack-plugin": "^5.1.0",
     "media-query-plugin": "^1.5.0",
