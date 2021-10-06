@@ -67,22 +67,22 @@ module.exports = class MediaQueryPlugin {
 
                 const chunks = compilation.chunks;
                 const chunkIds = [...chunks].map(chunk => chunk.id);
-                const assets =  hasDeprecatedChunks ? compilation.assets : compilationAssets;
+                const assets = hasDeprecatedChunks ? compilation.assets : compilationAssets;
 
                 store.getMediaKeys().forEach(mediaKey => {
 
                     const css = store.getMedia(mediaKey);
                     const queries = store.getQueries(mediaKey);
 
-                    // generate hash and use for [hash] within basename
-                    const hash = interpolateName({}, `[hash:${compiler.options.output.hashDigestLength}]`, { content: css });
+                    // // generate hash and use for [hash] within basename
+                    // const hash = interpolateName({}, `[hash:${compiler.options.output.hashDigestLength}]`, { content: css });
 
-                    // compute basename according to filename option
-                    // while considering hash
-                    const basename = this.options.filename
-                                        .replace('[name]', mediaKey)
-                                        .replace(/\[(content|chunk)?hash\]/, hash)
-                                        .replace(/\.[^.]+$/, '');
+                    // // compute basename according to filename option
+                    // // while considering hash
+                    // const basename = this.options.filename
+                    //                     .replace('[name]', mediaKey)
+                    //                     .replace(/\[(content|chunk)?hash\]/, hash)
+                    //                     .replace(/\.[^.]+$/, '');
 
                     // if there's no chunk for the extracted media, create one
                     if (chunkIds.indexOf(mediaKey) === -1) {
@@ -104,6 +104,29 @@ module.exports = class MediaQueryPlugin {
                     if (queries) {
                         chunk.query = queries[0];
                     }
+
+
+
+
+                    // generate hash and use for [hash] within basename
+                    const hash = interpolateName({}, `[hash:${compiler.options.output.hashDigestLength}]`, { content: css });
+
+                    // compute basename according to filename option
+                    // while considering hash
+                    const filename = typeof this.options.filename == 'function'
+                        ? this.options.filename({ chunk })
+                        : this.options.filename;
+
+                    const basename = filename
+                        .replace('[name]', mediaKey)
+                        .replace(/\[(content|chunk)?hash\]/, hash)
+                        .replace(/\.[^.]+$/, '');
+
+
+
+
+
+
 
                     // find existing js & css files of this chunk
                     let existingFiles = { js: [], css: [] };
