@@ -10,7 +10,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@symfony/webpack-encore": "^1.1.0",
+    "@symfony/webpack-encore": "^4.1.1",
     "media-query-plugin": "^1.5.0",
     "postcss-loader": "^5.0.0"
   }
