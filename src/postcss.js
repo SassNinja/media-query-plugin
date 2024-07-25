@@ -13,7 +13,7 @@ module.exports = postcss.plugin('MediaQueryPostCSS', options => {
 
         const css = postcss.root().append(atRule).toString();
         const query = atRule.params;
-        
+
         store.addMedia(name, css, options.path, query);
     }
 
@@ -54,8 +54,10 @@ module.exports = postcss.plugin('MediaQueryPostCSS', options => {
 
             if (queryname) {
                 const groupName = getGroupName(options.basename);
-                const name = groupName ? `${groupName}-${queryname}` : `${options.basename}-${queryname}`;
-                
+                const name = options.outputFileName instanceof Function
+                    ? options.outputFileName({ ...options, queryname, groupName })
+                    : groupName ? `${groupName}-${queryname}` : `${options.basename}-${queryname}`;
+
                 addToStore(name, atRule);
                 atRule.remove();
             }
